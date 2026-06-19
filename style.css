@@ -1,0 +1,208 @@
+:root {
+    --sky-bg: linear-gradient(to bottom, #0b101e 0%, #1a2436 100%);
+    --building-color: #b0a392;
+    --building-shadow: #8c7d6b;
+    --roof-color: #2b2f36;
+    --window-off: #14161a;
+    --window-on: #ffdb58;
+    --window-glow: rgba(255, 219, 88, 0.6);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: var(--sky-bg);
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Controles */
+.controls {
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 10;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #334155;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #3b82f6;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.format-label {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* Arquitectura del Edificio (4 Torres en total ahora) */
+.building {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    padding-bottom: 15px;
+    border-bottom: 8px solid #0a0a0a;
+}
+
+.tower {
+    display: flex;
+    flex-direction: column;
+    width: 110px;
+    background-color: var(--building-color);
+    position: relative;
+    box-shadow: inset -10px 0 15px rgba(0,0,0,0.1), 5px 0 15px rgba(0,0,0,0.3);
+    border-radius: 3px;
+}
+
+/* Torre de la izquierda (indicadores binarios) ligeramente diferenciada */
+.legend-tower {
+    background-color: #a39583;
+}
+
+/* Techo estilo Mansard Europeo */
+.roof {
+    height: 45px;
+    background: var(--roof-color);
+    clip-path: polygon(15% 0, 85% 0, 100% 100%, 0 100%);
+    position: relative;
+    z-index: 2;
+    margin-bottom: -5px;
+    border-bottom: 5px solid #1a1c20;
+}
+
+.roof::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 8px;
+    background: #111;
+}
+
+/* Pisos (4 niveles de reloj) */
+.floor {
+    height: 65px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-bottom: 3px solid var(--building-shadow);
+    position: relative;
+}
+
+.floor::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Ventanas de arco clásico */
+.window {
+    width: 28px;
+    height: 42px;
+    background-color: var(--window-off);
+    border: 3px solid #6b5f52;
+    border-radius: 14px 14px 0 0;
+    position: relative;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Balcones de hierro forjado */
+.window::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: -4px;
+    right: -4px;
+    height: 10px;
+    background: #222;
+    border-radius: 2px;
+    border-top: 2px solid #000;
+}
+
+/* Estilo para las ventanas que muestran el número binario estático */
+.legend-window {
+    background-color: #2e353d;
+    border-color: #4e4336;
+    color: #e2e8f0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.3rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.6);
+}
+
+.legend-window::after {
+    background: #3a322a; /* Balcón de piedra simulado */
+}
+
+/* Ocultar ventanas de control manteniendo el espacio */
+.hidden-window {
+    visibility: hidden;
+}
+
+/* Estados de iluminación (Bits activos) */
+.on {
+    background-color: var(--window-on);
+    box-shadow: 0 0 20px var(--window-glow), inset 0 0 10px #e6b800;
+    border-color: #8c7320;
+}
+
+.time-display {
+    margin-top: 25px;
+    font-family: monospace;
+    font-size: 2.2rem;
+    color: #94a3b8;
+    letter-spacing: 2px;
+}
